@@ -38,9 +38,36 @@ const MORSE_TABLE = {
 };
 
 function decode(expr) {
-    // write your solution here
-}
+    let finalStr = '';
+    let map = new Map([
+        ['00',''],
+        ['10','.'],
+        ['11','-'],
+        ['**',' ']
+    ]);
 
+    const arrayOfLetters = expr.match(/.{10}/g);
+    for (let i=0; i<arrayOfLetters.length; i++){
+        let letter = arrayOfLetters[i].match(/.{2}/g);
+        let morseCharacter = '';
+        for (let j=0; j<letter.length;j++){
+            if (letter[j] === '**') {
+                morseCharacter = ' ';
+                break;
+            }
+            morseCharacter = morseCharacter + map.get(letter[j]);
+        }
+        if (morseCharacter === ' ') {
+            finalStr = finalStr + morseCharacter;
+        } else {
+            finalStr = finalStr + MORSE_TABLE[morseCharacter];
+        }
+    }
+
+    console.log(finalStr);
+    return finalStr;
+}
 module.exports = {
     decode
 }
+
